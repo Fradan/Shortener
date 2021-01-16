@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace Shorter.Controllers
 {
@@ -8,19 +10,24 @@ namespace Shorter.Controllers
     [Route("api/[controller]")]
     public class LinkController : ControllerBase
     {
-        public LinkController()
+        private readonly ILinkService _linkService;
+
+        public LinkController(ILinkService linkService)
         {
-            
+            _linkService = linkService;
         }
 
         [HttpPost]
-        public IActionResult ShoterLink(string sourceLink)
+        public async Task<ActionResult<string>> ShorterLink(string sourceLink)
         {
-            throw new NotImplementedException();
+            var shorterLink = await _linkService.GetShorterLinkAsync(sourceLink);
+            return shorterLink;
         }
 
-        public IActionResult ShortenerLinkList()
+        [HttpGet]
+        public async Task<ActionResult> ShortenerList()
         {
+            var shortenerList = await _linkService.GetShortenerListAsync();
             throw new NotImplementedException();
         }
 
