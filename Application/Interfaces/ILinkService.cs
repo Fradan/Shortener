@@ -9,6 +9,7 @@ namespace Application
         public Task<string> GetShorterLinkAsync(string sourceLink);
 
         public Task<List<Shortener>> GetShortenerListAsync();
-            
+
+        public Task GetSourceLinkAsync(string shortetLink);
     }
 }
