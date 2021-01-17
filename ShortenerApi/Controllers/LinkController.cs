@@ -31,9 +31,11 @@ namespace Shorter.Controllers
             throw new NotImplementedException();
         }
 
-        public IActionResult SourceLink()
+        [HttpGet("{shorterLink}")]
+        public async Task<IActionResult> SourceLink(string shorterLink)
         {
-            throw new NotImplementedException();
+            var sourceLink = await _linkService.GetSourceLinkAsync(shorterLink);
+            return RedirectPermanent(sourceLink);
         }
        
     }

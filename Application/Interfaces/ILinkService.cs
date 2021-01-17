@@ -10,6 +10,6 @@ namespace Application
 
         public Task<List<Shortener>> GetShortenerListAsync();
 
-        public Task GetSourceLinkAsync(string shortetLink);
+        public Task<string> GetSourceLinkAsync(string shortetLink);
     }
 }
