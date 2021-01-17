@@ -5,7 +5,7 @@ namespace Core
     {
         public int Id;
 
-        public string ShoterLink;
+        public string ShortLink;
 
         public string SourceLink;
 
