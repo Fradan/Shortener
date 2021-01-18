@@ -8,7 +8,7 @@ namespace Application
     {
         Task CreateShortenerAsync(Shortener shortener);
 
-        Task<Shortener> GetByShortLinkAsync(string shortLink);
+        Task<Shortener> GetByBackHalf(string shortLink);
 
         Task<List<Shortener>> GetAllAsync();
     }
