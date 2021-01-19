@@ -16,5 +16,30 @@ namespace Core
         public string BackHalf;
 
         public int Counter;
+
+        private Shortener()
+        {
+            
+        }
+
+        public static Shortener Create(string sourceLink, string targetUrl, string backHalf)
+        {
+            var shortener = new Shortener()
+            {
+                BackHalf = backHalf,
+                SourceLink = CheckCompleteLink(sourceLink),
+                ShortLink = $"{targetUrl}/{backHalf}"
+            };
+            return shortener;
+        }
+
+        private static string CheckCompleteLink(string sourceLink)
+        {
+            if (!sourceLink.Contains("https://") || !sourceLink.Contains("http://"))
+            {
+                return $"https://{sourceLink}";
+            }
+            return sourceLink;
+        }
     }
 }
