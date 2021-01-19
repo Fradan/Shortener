@@ -1,20 +1,22 @@
 ﻿using Application;
+using AutoMapper;
+using Core;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Shorter.Controllers
+namespace ShortenerApi
 {
-    [Produces("application/json")]
     [ApiController]
-    [Route("api/[controller]")]
     public class LinkController : ControllerBase
     {
         private readonly IShortenerService _linkService;
+        private readonly IMapper _mapper;
 
-        public LinkController(IShortenerService linkService)
+        public LinkController(IShortenerService linkService, IMapper mapper)
         {
             _linkService = linkService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -22,34 +24,49 @@ namespace Shorter.Controllers
         /// </summary>
         /// <param name="sourceLink"></param>
         /// <returns></returns>
-        [HttpPost]
+        [Route("shorterLink"), HttpPost]
         public async Task<ActionResult<string>> ShorterLink([FromForm]string sourceLink)
         {
-            var shorterLink = await _linkService.CreateShortenerAsync(sourceLink);
-            return shorterLink;
+            if (sourceLink == null)
+            {
+                return BadRequest();
+            }
+
+            var shortLink = await _linkService.CreateShortenerAsync(sourceLink, $"{this.Request.Scheme}://{this.Request.Host}");
+            return shortLink;
         }
 
         /// <summary>
         /// получение списка всех сокращенных ссылок с количеством переходов
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult> ShortenerList()
+        [Route("[controller]"), HttpGet]
+        public async Task<ActionResult<List<ShortenerDto>>> GetAll()
         {
-            var shortenerList = await _linkService.GetShortenerListAsync();
-            throw new NotImplementedException();
+            List<Shortener> shortenerList = await _linkService.GetShortenerListAsync();
+            return _mapper.Map<List<ShortenerDto>>(shortenerList);
         }
 
         /// <summary>
         /// получение оригинала по сокращенной, с увеличением счетчика посещений
         /// </summary>
-        /// <param name="shorterLink"></param>
+        /// <param name="backHalf"></param>
         /// <returns></returns>
-        [HttpGet("{shorterLink}")]
-        public async Task<IActionResult> SourceLink(string shorterLink)
+        [Route("{backHalf}"), HttpGet]
+        public async Task<IActionResult> SourceLink(string backHalf)
         {
-            var sourceLink = await _linkService.GetSourceLinkAsync(shorterLink);
-            return RedirectPermanent(sourceLink);
+            if (backHalf == null)
+            {
+                return BadRequest();
+            }
+                
+            var sourceLink = await _linkService.GetSourceLinkAsync(backHalf);
+            if (sourceLink != null)
+            {
+                return RedirectPermanent(sourceLink);
+            }
+            return NotFound();
+            
         }
        
     }

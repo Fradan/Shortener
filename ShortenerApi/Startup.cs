@@ -1,5 +1,8 @@
+using Application;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,8 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
-namespace Shorter
+namespace ShortenerApi
 {
     public class Startup
     {
@@ -26,6 +30,15 @@ namespace Shorter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+
+            services.AddScoped<IShortenerService, ShortenerService>();
+            services.AddScoped<IShortenerRepository, ShortenerRepository>();
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<ShortenerProfile>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
