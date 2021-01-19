@@ -33,6 +33,8 @@ namespace ShortenerApi
 
             services.AddExceptionInterceptor();
 
+            services.AddExceptionInterceptor();
+
             services.AddScoped<IShortenerService, ShortenerService>();
             services.AddScoped<IShortenerRepository, ShortenerRepository>();
 

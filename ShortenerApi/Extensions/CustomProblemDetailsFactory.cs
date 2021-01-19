@@ -21,7 +21,9 @@ namespace Application
         public CustomProblemDetailsFactory(IOptions<ApiBehaviorOptions> options)
         {
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-        }
+        } 
+
+
 
         public void Map<T>(Func<T, HttpContext, ProblemDetails> func) where T : Exception
         {

@@ -30,9 +30,9 @@ namespace Application
         {
             if (!LinkHelper.IsLinkValid(sourceLink) || sourceLink == null)
             {
-                throw new BusinessRuleValidationException("Неправильный URL.");
+                throw new BusinessRuleValidationException("Некорректный URL.");
             }
-
+             
             string backHalf;
             do
             {
