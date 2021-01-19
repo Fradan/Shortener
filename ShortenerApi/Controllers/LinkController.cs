@@ -19,6 +19,7 @@ namespace ShortenerApi
             _mapper = mapper;
         }
 
+
         /// <summary>
         /// создание сокращенной ссылки по полной
         /// </summary>
@@ -59,7 +60,9 @@ namespace ShortenerApi
             {
                 return BadRequest();
             }
-                
+                 
+
+
             var sourceLink = await _linkService.GetSourceLinkAsync(backHalf);
             if (sourceLink != null)
             {

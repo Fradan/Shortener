@@ -32,6 +32,8 @@ namespace ShortenerApi
             services.AddControllers();
 
 
+            services.AddExceptionInterceptor();
+
             services.AddScoped<IShortenerService, ShortenerService>();
             services.AddScoped<IShortenerRepository, ShortenerRepository>();
 
