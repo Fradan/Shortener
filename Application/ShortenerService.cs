@@ -28,9 +28,9 @@ namespace Application
 
         public async Task<string> CreateShortenerAsync(string sourceLink, string appUrl)
         {
-            if (sourceLink == null || !LinkHelper.IsLinkValid(sourceLink))
+            if (!LinkHelper.IsLinkValid(sourceLink) || sourceLink == null)
             {
-                throw new BusinessRuleValidationException("Некорректный URL.");
+                throw new BusinessRuleValidationException("Неправильный URL.");
             }
 
             string backHalf;
