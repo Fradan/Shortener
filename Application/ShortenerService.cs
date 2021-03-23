@@ -42,13 +42,15 @@ namespace Application
 
             var shortener = Shortener.Create(sourceLink, appUrl, backHalf);
 
-            await _shortenerRepository.CreateShortenerAsync(shortener);
+            await _shortenerRepository
+                .CreateShortenerAsync(shortener);
             return shortener.ShortLink;
         }
 
         public async Task<string> GetSourceLinkAsync(string backHalf)
         {
-            var shortener = await _shortenerRepository.GetByBackHalf(backHalf);
+            var shortener = await _shortenerRepository
+                .GetByBackHalf(backHalf);
             return shortener?.SourceLink;
         }
     }
